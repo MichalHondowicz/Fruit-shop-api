@@ -3,7 +3,9 @@ package com.michon.fruitshopapi.runner;
 import com.michon.fruitshopapi.domain.Category;
 import com.michon.fruitshopapi.repository.CategoryRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
+@Component
 public class BootRunner implements CommandLineRunner {
 
     private CategoryRepository categoryRepository;
