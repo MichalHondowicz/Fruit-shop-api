@@ -1,4 +1,4 @@
-package com.michon.fruitshopapi.exceptions;
+package com.michon.fruitshopapi.exception;
 
 
 import org.springframework.http.HttpStatus;
