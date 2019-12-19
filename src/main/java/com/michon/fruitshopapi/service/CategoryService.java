@@ -3,6 +3,7 @@ package com.michon.fruitshopapi.service;
 import com.michon.fruitshopapi.domain.Category;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CategoryService {
 
@@ -10,7 +11,4 @@ public interface CategoryService {
 
     List<Category> getAllCategories();
 
-    Category saveCategory(Category category);
-
-    void deleteCategoryByName(String namne);
 }

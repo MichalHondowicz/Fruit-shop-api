@@ -7,6 +7,7 @@ import com.michon.fruitshopapi.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -20,8 +21,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category getCategoryByName(String name) {
         return categoryRepository
-                .findByName(name)
-                .orElseThrow(() -> new CategoryNotFoundException(name));
+                .findByName(name).orElseThrow(() -> new CategoryNotFoundException(name));
     }
 
     @Override
@@ -29,20 +29,4 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findAll();
     }
 
-    @Override
-    public Category saveCategory(Category category) {
-        try {
-            category.setName(category.getName().toUpperCase());
-            return categoryRepository.save(category);
-        } catch (Exception ex) {
-            throw new CategoryNameException(category.getName().toUpperCase());
-        }
-    }
-
-    @Override
-    public void deleteCategoryByName(String namne) {
-        Category category = categoryRepository.findByName(namne)
-                .orElseThrow(() -> new CategoryNotFoundException(namne));
-        categoryRepository.delete(category);
-    }
 }
