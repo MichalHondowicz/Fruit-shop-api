@@ -1,7 +1,9 @@
 package com.michon.fruitshopapi.controller.v1;
 
+import com.jayway.jsonpath.JsonPath;
 import com.michon.fruitshopapi.domain.Category;
 import com.michon.fruitshopapi.service.CategoryService;
+import org.json.JSONArray;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -15,7 +17,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -34,7 +38,7 @@ class CategoryControllerTest {
     MockMvc mockMvc;
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
 
         MockitoAnnotations.initMocks(this);
 
@@ -48,7 +52,7 @@ class CategoryControllerTest {
         category1.setId(1L);
         category1.setName("TestCategory1");
         Category category2 = new Category();
-        category2.setId(1L);
+        category2.setId(2L);
         category2.setName(NAME);
 
         List<Category> categories = Arrays.asList(category1, category2);
@@ -59,5 +63,19 @@ class CategoryControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.categories", hasSize(2)));
+    }
+
+    @Test
+    public void testGetCategoryByName() throws Exception {
+        Category category = new Category();
+        category.setId(1L);
+        category.setName(NAME);
+
+        when(categoryService.getCategoryByName(anyString())).thenReturn(category);
+
+        mockMvc.perform(get("/v1/categories/Test")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", equalTo(NAME)));
     }
 }
