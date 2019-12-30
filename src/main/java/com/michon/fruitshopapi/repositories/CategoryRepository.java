@@ -1,4 +1,4 @@
-package com.michon.fruitshopapi.repository;
+package com.michon.fruitshopapi.repositories;
 
 import com.michon.fruitshopapi.domain.Category;
 import org.springframework.data.jpa.repository.JpaRepository;

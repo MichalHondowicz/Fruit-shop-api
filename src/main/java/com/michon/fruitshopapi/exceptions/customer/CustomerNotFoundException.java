@@ -1,4 +1,4 @@
-package com.michon.fruitshopapi.exception.customer;
+package com.michon.fruitshopapi.exceptions.customer;
 
 
 import org.springframework.http.HttpStatus;

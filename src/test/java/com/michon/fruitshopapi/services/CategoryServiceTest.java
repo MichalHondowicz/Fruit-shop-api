@@ -1,8 +1,7 @@
-package com.michon.fruitshopapi.service;
+package com.michon.fruitshopapi.services;
 
 import com.michon.fruitshopapi.domain.Category;
-import com.michon.fruitshopapi.repository.CategoryRepository;
-import org.aspectj.lang.annotation.Before;
+import com.michon.fruitshopapi.repositories.CategoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -15,7 +14,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.withSettings;
 
 class CategoryServiceTest {
 
@@ -33,7 +31,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    void getCategoryByName() {
+    void getAllCategories(){
 
         List<Category> categories = Arrays.asList(new Category(), new Category(), new Category());
 
@@ -45,7 +43,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    void getAllCategories() {
+    void getCategoryByName() {
 
         Category category = new Category();
         category.setName(NAME);

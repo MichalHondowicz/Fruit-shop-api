@@ -1,9 +1,9 @@
-package com.michon.fruitshopapi.controller.v1;
+package com.michon.fruitshopapi.controllers.v1;
 
 
 import com.michon.fruitshopapi.domain.Customer;
 import com.michon.fruitshopapi.domain.CustomerList;
-import com.michon.fruitshopapi.service.CustomerService;
+import com.michon.fruitshopapi.services.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

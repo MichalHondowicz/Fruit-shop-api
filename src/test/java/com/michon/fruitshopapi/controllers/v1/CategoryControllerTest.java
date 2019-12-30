@@ -1,9 +1,7 @@
-package com.michon.fruitshopapi.controller.v1;
+package com.michon.fruitshopapi.controllers.v1;
 
-import com.jayway.jsonpath.JsonPath;
 import com.michon.fruitshopapi.domain.Category;
-import com.michon.fruitshopapi.service.CategoryService;
-import org.json.JSONArray;
+import com.michon.fruitshopapi.services.CategoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

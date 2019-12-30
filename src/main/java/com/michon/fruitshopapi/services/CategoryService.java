@@ -1,4 +1,4 @@
-package com.michon.fruitshopapi.service;
+package com.michon.fruitshopapi.services;
 
 import com.michon.fruitshopapi.domain.Category;
 

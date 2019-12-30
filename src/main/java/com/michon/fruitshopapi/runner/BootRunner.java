@@ -2,8 +2,8 @@ package com.michon.fruitshopapi.runner;
 
 import com.michon.fruitshopapi.domain.Category;
 import com.michon.fruitshopapi.domain.Customer;
-import com.michon.fruitshopapi.repository.CategoryRepository;
-import com.michon.fruitshopapi.repository.CustomerRepository;
+import com.michon.fruitshopapi.repositories.CategoryRepository;
+import com.michon.fruitshopapi.repositories.CustomerRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

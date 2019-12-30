@@ -1,8 +1,8 @@
-package com.michon.fruitshopapi.service;
+package com.michon.fruitshopapi.services;
 
 import com.michon.fruitshopapi.domain.Customer;
-import com.michon.fruitshopapi.exception.customer.CustomerNotFoundException;
-import com.michon.fruitshopapi.repository.CustomerRepository;
+import com.michon.fruitshopapi.exceptions.customer.CustomerNotFoundException;
+import com.michon.fruitshopapi.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
