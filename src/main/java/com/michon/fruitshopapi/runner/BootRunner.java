@@ -1,6 +1,7 @@
 package com.michon.fruitshopapi.runner;
 
 import com.michon.fruitshopapi.domain.Category;
+import com.michon.fruitshopapi.domain.Customer;
 import com.michon.fruitshopapi.repository.CategoryRepository;
 import com.michon.fruitshopapi.repository.CustomerRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -19,6 +20,11 @@ public class BootRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+        setUpCategories();
+        setUpCustomers();
+    }
+
+    private void setUpCategories() {
         Category fruits = new Category();
         fruits.setName("Fruits");
         Category dried = new Category();
@@ -35,5 +41,20 @@ public class BootRunner implements CommandLineRunner {
         categoryRepository.save(fresh);
         categoryRepository.save(exotic);
         categoryRepository.save(nuts);
+    }
+
+    private void setUpCustomers() {
+
+        Customer customer = new Customer();
+        customer.setId(1L);
+        customer.setFirstName("John");
+        customer.setLastName("Doe");
+        customerRepository.save(customer);
+
+        Customer customer1 = new Customer();
+        customer.setId(2L);
+        customer.setFirstName("Joe");
+        customer.setLastName("Smith");
+        customerRepository.save(customer1);
     }
 }
