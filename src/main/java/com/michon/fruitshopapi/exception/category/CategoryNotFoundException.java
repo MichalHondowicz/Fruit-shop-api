@@ -1,4 +1,4 @@
-package com.michon.fruitshopapi.exception;
+package com.michon.fruitshopapi.exception.category;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class CategoryNotFoundException extends RuntimeException {
 
     public CategoryNotFoundException(String name) {
-        super(String.format("Category with name: %s  not found", name));
+        super(String.format("Category with name: %s not found", name));
     }
 }

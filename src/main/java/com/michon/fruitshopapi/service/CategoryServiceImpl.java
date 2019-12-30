@@ -1,7 +1,7 @@
 package com.michon.fruitshopapi.service;
 
 import com.michon.fruitshopapi.domain.Category;
-import com.michon.fruitshopapi.exception.CategoryNotFoundException;
+import com.michon.fruitshopapi.exception.category.CategoryNotFoundException;
 import com.michon.fruitshopapi.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
