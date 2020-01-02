@@ -13,8 +13,9 @@ public class BootRunner implements CommandLineRunner {
     private CategoryRepository categoryRepository;
     private CustomerRepository customerRepository;
 
-    public BootRunner(CategoryRepository categoryRepository) {
+    public BootRunner(CategoryRepository categoryRepository, CustomerRepository customerRepository) {
         this.categoryRepository = categoryRepository;
+        this.customerRepository = customerRepository;
     }
 
     @Override
@@ -52,9 +53,10 @@ public class BootRunner implements CommandLineRunner {
         customerRepository.save(customer);
 
         Customer customer1 = new Customer();
-        customer.setId(2L);
-        customer.setFirstName("Joe");
-        customer.setLastName("Smith");
+        customer1.setId(2L);
+        customer1.setFirstName("Joe");
+        customer1.setLastName("Smith");
         customerRepository.save(customer1);
+
     }
 }

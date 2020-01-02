@@ -11,14 +11,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-
 import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -52,10 +51,8 @@ class CategoryControllerTest {
         Category category2 = new Category();
         category2.setId(2L);
         category2.setName(NAME);
-
         List<Category> categories = Arrays.asList(category1, category2);
-
-        when(categoryService.getAllCategories()).thenReturn(categories);
+        given(categoryService.getAllCategories()).willReturn(categories);
 
         mockMvc.perform(get("/v1/categories/")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -68,8 +65,7 @@ class CategoryControllerTest {
         Category category = new Category();
         category.setId(1L);
         category.setName(NAME);
-
-        when(categoryService.getCategoryByName(anyString())).thenReturn(category);
+        given(categoryService.getCategoryByName(anyString())).willReturn(category);
 
         mockMvc.perform(get("/v1/categories/Test")
                 .contentType(MediaType.APPLICATION_JSON))

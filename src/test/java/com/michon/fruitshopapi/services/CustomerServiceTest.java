@@ -1,6 +1,5 @@
 package com.michon.fruitshopapi.services;
 
-import com.michon.fruitshopapi.domain.Category;
 import com.michon.fruitshopapi.domain.Customer;
 import com.michon.fruitshopapi.repositories.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,13 +7,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import javax.persistence.Id;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 class CustomerServiceTest {
@@ -35,10 +35,9 @@ class CustomerServiceTest {
     }
 
     @Test
-    void GetAllCustomers(){
+    public void GetAllCustomers(){
         List<Customer> customers = Arrays.asList(new Customer(), new Customer(), new Customer());
-
-        when(customerRepository.findAll()).thenReturn(customers);
+        given(customerRepository.findAll()).willReturn(customers);
 
         List<Customer> customers1 = customerService.getAllCustomers();
 
@@ -46,19 +45,34 @@ class CustomerServiceTest {
     }
 
     @Test
-    void GetCustomerById(){
+    public void GetCustomerById() {
 
         Customer customer = new Customer();
         customer.setId(ID);
         customer.setFirstName(FIRST_NAME);
         customer.setLastName(LAST_NAME);
-
-        when(customerRepository.findById(anyLong())).thenReturn(Optional.of(customer));
+        given(customerRepository.findById(anyLong())).willReturn(Optional.of(customer));
 
         Customer customer1 = customerService.getCustomerById(ID);
 
         assertEquals(ID, customer1.getId());
         assertEquals(FIRST_NAME, customer1.getFirstName());
         assertEquals(LAST_NAME, customer1.getLastName());
+    }
+
+    @Test
+    public void createNewCustomer() {
+
+        Customer customer = new Customer();
+        customer.setId(1L);
+        customer.setFirstName("Bob");
+        customer.setLastName("James");
+        given(customerRepository.save(any(Customer.class))).willReturn(customer);
+
+        Customer customerToSave = customerService.createNewCustomer(customer);
+
+        assertEquals(customerToSave.getId(), customer.getId());
+        assertEquals(customerToSave.getFirstName(), customer.getFirstName());
+        assertEquals(customerToSave.getLastName(), customer.getLastName());
     }
 }

@@ -13,7 +13,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
 class CategoryServiceTest {
 
@@ -34,8 +34,7 @@ class CategoryServiceTest {
     void getAllCategories(){
 
         List<Category> categories = Arrays.asList(new Category(), new Category(), new Category());
-
-        when(categoryRepository.findAll()).thenReturn(categories);
+        given(categoryRepository.findAll()).willReturn(categories);
 
         List<Category> categoriesTest = categoryService.getAllCategories();
 
@@ -48,8 +47,7 @@ class CategoryServiceTest {
         Category category = new Category();
         category.setName(NAME);
         category.setId(ID);
-
-        when(categoryRepository.findByName(anyString())).thenReturn(Optional.of(category));
+        given(categoryRepository.findByName(anyString())).willReturn(Optional.of(category));
 
         Category testCategory = categoryService.getCategoryByName(NAME);
 
