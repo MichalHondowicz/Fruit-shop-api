@@ -1,4 +1,4 @@
-package com.michon.fruitshopapi.controllers.v1;
+package com.michon.fruitshopapi.controllers;
 
 
 import com.michon.fruitshopapi.domain.Customer;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/v1/customers/")
+@RequestMapping("/v1/customers")
 public class CustomerController {
 
     private final CustomerService customerService;
@@ -26,7 +26,7 @@ public class CustomerController {
         return new ResponseEntity<>(new CustomerList(customerService.getAllCustomers()), HttpStatus.OK);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
         return new ResponseEntity<>(customerService.getCustomerById(id), HttpStatus.OK);
     }

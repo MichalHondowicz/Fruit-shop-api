@@ -1,4 +1,4 @@
-package com.michon.fruitshopapi.controllers.v1;
+package com.michon.fruitshopapi.controllers;
 
 import com.michon.fruitshopapi.domain.Category;
 import com.michon.fruitshopapi.domain.CategoryList;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/v1/categories/")
+@RequestMapping("/v1/categories")
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -26,7 +26,7 @@ public class CategoryController {
                 new CategoryList(categoryService.getAllCategories()), HttpStatus.OK);
     }
 
-    @GetMapping("{categoryName}")
+    @GetMapping("/{categoryName}")
     public ResponseEntity<Category> getCategoryByName(@PathVariable String categoryName) {
         return new ResponseEntity<>(categoryService.getCategoryByName(categoryName), HttpStatus.OK);
     }

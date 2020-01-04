@@ -35,7 +35,7 @@ class CustomerServiceTest {
     }
 
     @Test
-    public void GetAllCustomers(){
+    public void testGetAllCustomers(){
         List<Customer> customers = Arrays.asList(new Customer(), new Customer(), new Customer());
         given(customerRepository.findAll()).willReturn(customers);
 
@@ -45,7 +45,7 @@ class CustomerServiceTest {
     }
 
     @Test
-    public void GetCustomerById() {
+    public void testGetCustomerById() {
 
         Customer customer = new Customer();
         customer.setId(ID);
@@ -61,7 +61,7 @@ class CustomerServiceTest {
     }
 
     @Test
-    public void createNewCustomer() {
+    public void testCreateNewCustomer() {
 
         Customer customer = new Customer();
         customer.setId(1L);

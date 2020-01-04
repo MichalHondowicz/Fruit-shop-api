@@ -31,7 +31,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    void getAllCategories(){
+    void testGetAllCategories(){
 
         List<Category> categories = Arrays.asList(new Category(), new Category(), new Category());
         given(categoryRepository.findAll()).willReturn(categories);
@@ -42,7 +42,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    void getCategoryByName() {
+    void testGetCategoryByName() {
 
         Category category = new Category();
         category.setName(NAME);

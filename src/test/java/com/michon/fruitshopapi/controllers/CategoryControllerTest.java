@@ -1,12 +1,16 @@
-package com.michon.fruitshopapi.controllers.v1;
+package com.michon.fruitshopapi.controllers;
 
 import com.michon.fruitshopapi.domain.Category;
 import com.michon.fruitshopapi.services.CategoryService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -18,28 +22,25 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.reset;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@WebMvcTest(CategoryController.class)
 class CategoryControllerTest {
 
     public static final String NAME = "Test";
 
-    @Mock
+    @MockBean
     CategoryService categoryService;
 
-    @InjectMocks
-    CategoryController categoryController;
-
+    @Autowired
     MockMvc mockMvc;
 
-    @BeforeEach
-    public void setUp() {
-
-        MockitoAnnotations.initMocks(this);
-
-        mockMvc = MockMvcBuilders.standaloneSetup(categoryController).build();
+    @AfterEach
+    void tearDown() {
+        reset(categoryService);
     }
 
     @Test
@@ -57,7 +58,7 @@ class CategoryControllerTest {
         mockMvc.perform(get("/v1/categories/")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.categories", hasSize(2)));
+                .andExpect(jsonPath("$.categories", hasSize(categories.size())));
     }
 
     @Test
@@ -70,6 +71,6 @@ class CategoryControllerTest {
         mockMvc.perform(get("/v1/categories/Test")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name", equalTo(NAME)));
+                .andExpect(jsonPath("$.name", equalTo(category.getName())));
     }
 }
