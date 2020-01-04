@@ -30,4 +30,11 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer createNewCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
+
+    @Override
+    public Customer saveCustomer(Long id, Customer customer) {
+        Customer customerToBeSaved = customerRepository.save(customer);
+        customerToBeSaved.setId(id);
+        return customerToBeSaved;
+    }
 }

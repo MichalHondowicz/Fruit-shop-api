@@ -1,14 +1,10 @@
 package com.michon.fruitshopapi.controllers;
 
-import com.michon.fruitshopapi.controllers.CustomerController;
 import com.michon.fruitshopapi.domain.Customer;
 import com.michon.fruitshopapi.services.CustomerService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -17,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.any;
 
 import java.util.Arrays;
 import java.util.List;
@@ -82,7 +79,7 @@ class CustomerControllerTest extends TestRestControllerExtensionMethods{
 
     @Test
     public void testCreateNewCustomer() throws Exception{
-        given(customerService.createNewCustomer(customer)).willReturn(customer);
+        given(customerService.createNewCustomer(any(Customer.class))).willReturn(customer);
 
         mockMvc.perform(post(BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -90,5 +87,16 @@ class CustomerControllerTest extends TestRestControllerExtensionMethods{
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.firstName", equalTo(FIRST_NAME)))
                 .andExpect(jsonPath("$.lastName", equalTo(LAST_NAME)));
+    }
+
+    @Test
+    public void testSaveCustomer() throws Exception{
+        given(customerService.saveCustomer(anyLong(), any(Customer.class))).willReturn(customer);
+
+        mockMvc.perform(put(BASE_URL + "/1")
+                .contentType(MediaType.APPLICATION_JSON).content(asJsonString(customer)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.firstName", equalTo(customer.getFirstName())))
+                .andExpect(jsonPath("$.lastName", equalTo(customer.getLastName())));
     }
 }
