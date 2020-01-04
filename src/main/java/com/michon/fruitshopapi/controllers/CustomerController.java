@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/v1/customers")
+@RequestMapping("/customers")
 public class CustomerController {
 
     private final CustomerService customerService;

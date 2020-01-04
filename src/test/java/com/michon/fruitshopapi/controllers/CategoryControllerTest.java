@@ -3,17 +3,12 @@ package com.michon.fruitshopapi.controllers;
 import com.michon.fruitshopapi.domain.Category;
 import com.michon.fruitshopapi.services.CategoryService;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class CategoryControllerTest {
 
     public static final String NAME = "Test";
+    public static final String BASE_URL = "/categories";
 
     @MockBean
     CategoryService categoryService;
@@ -44,7 +40,7 @@ class CategoryControllerTest {
     }
 
     @Test
-    public void testListCategories() throws Exception {
+    public void testGetAllCategories() throws Exception {
 
         Category category1 = new Category();
         category1.setId(1L);
@@ -55,7 +51,7 @@ class CategoryControllerTest {
         List<Category> categories = Arrays.asList(category1, category2);
         given(categoryService.getAllCategories()).willReturn(categories);
 
-        mockMvc.perform(get("/v1/categories/")
+        mockMvc.perform(get(BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.categories", hasSize(categories.size())));
@@ -68,7 +64,7 @@ class CategoryControllerTest {
         category.setName(NAME);
         given(categoryService.getCategoryByName(anyString())).willReturn(category);
 
-        mockMvc.perform(get("/v1/categories/Test")
+        mockMvc.perform(get(BASE_URL + "/Test")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", equalTo(category.getName())));
