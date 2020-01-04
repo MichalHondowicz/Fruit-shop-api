@@ -17,8 +17,8 @@ import static org.mockito.BDDMockito.given;
 
 class CategoryServiceTest {
 
-    public static final Long ID = 2L;
-    public static final String NAME = "Test";
+    private static final Long ID = 2L;
+    private static final String NAME = "Test";
     CategoryService categoryService;
 
     @Mock
@@ -31,8 +31,7 @@ class CategoryServiceTest {
     }
 
     @Test
-    void testGetAllCategories(){
-
+    void testGetAllCategories() {
         List<Category> categories = Arrays.asList(new Category(), new Category(), new Category());
         given(categoryRepository.findAll()).willReturn(categories);
 
@@ -43,7 +42,6 @@ class CategoryServiceTest {
 
     @Test
     void testGetCategoryByName() {
-
         Category category = new Category();
         category.setName(NAME);
         category.setId(ID);

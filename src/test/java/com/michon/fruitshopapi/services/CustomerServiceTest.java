@@ -22,6 +22,7 @@ class CustomerServiceTest {
     public static final Long ID = 1L;
     public static String FIRST_NAME = "Adam";
     public static final String LAST_NAME = "Jones";
+    Customer customer;
 
     CustomerService customerService;
 
@@ -29,13 +30,21 @@ class CustomerServiceTest {
     CustomerRepository customerRepository;
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         customerService = new CustomerServiceImpl(customerRepository);
     }
 
+    private Customer createCustomer() {
+        customer = new Customer();
+        customer.setId(ID);
+        customer.setFirstName(FIRST_NAME);
+        customer.setLastName(LAST_NAME);
+        return customer;
+    }
+
     @Test
-    public void testGetAllCustomers(){
+    public void testGetAllCustomers() {
         List<Customer> customers = Arrays.asList(new Customer(), new Customer(), new Customer());
         given(customerRepository.findAll()).willReturn(customers);
 
@@ -46,11 +55,7 @@ class CustomerServiceTest {
 
     @Test
     public void testGetCustomerById() {
-
-        Customer customer = new Customer();
-        customer.setId(ID);
-        customer.setFirstName(FIRST_NAME);
-        customer.setLastName(LAST_NAME);
+        createCustomer();
         given(customerRepository.findById(anyLong())).willReturn(Optional.of(customer));
 
         Customer customer1 = customerService.getCustomerById(ID);
@@ -60,13 +65,10 @@ class CustomerServiceTest {
         assertEquals(LAST_NAME, customer1.getLastName());
     }
 
+
     @Test
     public void testCreateNewCustomer() {
-
-        Customer customer = new Customer();
-        customer.setId(1L);
-        customer.setFirstName("Bob");
-        customer.setLastName("James");
+        createCustomer();
         given(customerRepository.save(any(Customer.class))).willReturn(customer);
 
         Customer customerToSave = customerService.createNewCustomer(customer);

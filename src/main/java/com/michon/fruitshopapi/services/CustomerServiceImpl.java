@@ -3,18 +3,16 @@ package com.michon.fruitshopapi.services;
 import com.michon.fruitshopapi.domain.Customer;
 import com.michon.fruitshopapi.exceptions.customer.CustomerNotFoundException;
 import com.michon.fruitshopapi.repositories.CustomerRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
-
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
 
     @Override
     public List<Customer> getAllCustomers() {

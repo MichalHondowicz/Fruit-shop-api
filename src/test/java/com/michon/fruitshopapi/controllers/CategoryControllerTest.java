@@ -3,6 +3,7 @@ package com.michon.fruitshopapi.controllers;
 import com.michon.fruitshopapi.domain.Category;
 import com.michon.fruitshopapi.services.CategoryService;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -27,12 +28,20 @@ class CategoryControllerTest {
 
     public static final String NAME = "Test";
     public static final String BASE_URL = "/categories";
+    Category category;
 
     @MockBean
     CategoryService categoryService;
 
     @Autowired
     MockMvc mockMvc;
+
+    @BeforeEach
+    void setUp() {
+        category = new Category();
+        category.setId(1L);
+        category.setName(NAME);
+    }
 
     @AfterEach
     void tearDown() {
@@ -41,14 +50,10 @@ class CategoryControllerTest {
 
     @Test
     public void testGetAllCategories() throws Exception {
-
-        Category category1 = new Category();
-        category1.setId(1L);
-        category1.setName("TestCategory1");
         Category category2 = new Category();
         category2.setId(2L);
-        category2.setName(NAME);
-        List<Category> categories = Arrays.asList(category1, category2);
+        category2.setName("TestCategory1");
+        List<Category> categories = Arrays.asList(category, category2);
         given(categoryService.getAllCategories()).willReturn(categories);
 
         mockMvc.perform(get(BASE_URL)
@@ -59,9 +64,6 @@ class CategoryControllerTest {
 
     @Test
     public void testGetCategoryByName() throws Exception {
-        Category category = new Category();
-        category.setId(1L);
-        category.setName(NAME);
         given(categoryService.getCategoryByName(anyString())).willReturn(category);
 
         mockMvc.perform(get(BASE_URL + "/Test")

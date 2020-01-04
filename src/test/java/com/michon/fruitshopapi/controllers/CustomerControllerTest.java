@@ -15,31 +15,39 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.reset;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CustomerController.class)
-class CustomerControllerTest {
+class CustomerControllerTest extends TestRestControllerExtensionMethods{
 
     public static final String FIRST_NAME = "John";
     public static final String LAST_NAME = "Doe";
     public static final String BASE_URL = "/customers";
+    Customer customer;
 
     @MockBean
     CustomerService customerService;
 
     @Autowired
     MockMvc mockMvc;
+
+    @BeforeEach
+    void setUp() {
+        customer = new Customer();
+        customer.setId(1L);
+        customer.setFirstName(FIRST_NAME);
+        customer.setLastName(LAST_NAME);
+    }
 
     @AfterEach
     void tearDown() {
@@ -48,16 +56,11 @@ class CustomerControllerTest {
 
     @Test
     public void testGetAllCustomers() throws Exception {
-
-        Customer customer1 = new Customer();
-        customer1.setId(1L);
-        customer1.setFirstName(FIRST_NAME);
-        customer1.setLastName(LAST_NAME);
         Customer customer2 = new Customer();
         customer2.setId(2L);
         customer2.setFirstName("James");
         customer2.setLastName("Brown");
-        List<Customer> customers = Arrays.asList(customer1, customer2);
+        List<Customer> customers = Arrays.asList(customer, customer2);
         given(customerService.getAllCustomers()).willReturn(customers);
 
         mockMvc.perform(get(BASE_URL)
@@ -67,12 +70,7 @@ class CustomerControllerTest {
     }
 
     @Test
-    public void testGetCustomerById() throws Exception{
-
-        Customer customer = new Customer();
-        customer.setId(1L);
-        customer.setFirstName(FIRST_NAME);
-        customer.setLastName(LAST_NAME);
+    public void testGetCustomerById() throws Exception {
         given(customerService.getCustomerById(anyLong())).willReturn(customer);
 
         mockMvc.perform(get(BASE_URL + "/1")
@@ -80,5 +78,17 @@ class CustomerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName", equalTo(customer.getFirstName())))
                 .andExpect(jsonPath("$.lastName", equalTo(customer.getLastName())));
+    }
+
+    @Test
+    public void testCreateNewCustomer() throws Exception{
+        given(customerService.createNewCustomer(customer)).willReturn(customer);
+
+        mockMvc.perform(post(BASE_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(customer)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.firstName", equalTo(FIRST_NAME)))
+                .andExpect(jsonPath("$.lastName", equalTo(LAST_NAME)));
     }
 }
