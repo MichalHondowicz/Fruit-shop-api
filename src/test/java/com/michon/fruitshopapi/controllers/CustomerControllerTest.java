@@ -27,10 +27,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(CustomerController.class)
 class CustomerControllerTest extends TestRestControllerExtensionMethods{
 
-    public static final String FIRST_NAME = "John";
-    public static final String LAST_NAME = "Doe";
-    public static final String BASE_URL = "/customers";
-    Customer customer;
+    private static final long ID  = 1L;
+    private static final String FIRST_NAME = "John";
+    private static final String LAST_NAME = "Doe";
+    private static final String BASE_URL = "/customers";
+    private Customer customer;
 
     @MockBean
     CustomerService customerService;
@@ -41,7 +42,7 @@ class CustomerControllerTest extends TestRestControllerExtensionMethods{
     @BeforeEach
     void setUp() {
         customer = new Customer();
-        customer.setId(1L);
+        customer.setId(ID);
         customer.setFirstName(FIRST_NAME);
         customer.setLastName(LAST_NAME);
     }
@@ -90,12 +91,15 @@ class CustomerControllerTest extends TestRestControllerExtensionMethods{
     }
 
     @Test
-    public void testSaveCustomer() throws Exception{
-        given(customerService.saveCustomer(anyLong(), any(Customer.class))).willReturn(customer);
+    public void testUpdateCustomer() throws Exception{
+        int id = (int) ID;
+        String customerId = String.format("/%d", id);
+        given(customerService.updateCustomer(anyLong(), any(Customer.class))).willReturn(customer);
 
-        mockMvc.perform(put(BASE_URL + "/1")
+        mockMvc.perform(put(BASE_URL + customerId)
                 .contentType(MediaType.APPLICATION_JSON).content(asJsonString(customer)))
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", equalTo(id)))
                 .andExpect(jsonPath("$.firstName", equalTo(customer.getFirstName())))
                 .andExpect(jsonPath("$.lastName", equalTo(customer.getLastName())));
     }

@@ -19,10 +19,10 @@ import static org.mockito.Mockito.when;
 
 class CustomerServiceTest {
 
-    public static final Long ID = 1L;
-    public static String FIRST_NAME = "Adam";
-    public static final String LAST_NAME = "Jones";
-    Customer customer;
+    private static final Long ID = 1L;
+    private static String FIRST_NAME = "Adam";
+    private static final String LAST_NAME = "Jones";
+    private Customer customer;
 
     CustomerService customerService;
 
