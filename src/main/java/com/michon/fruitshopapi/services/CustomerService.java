@@ -13,4 +13,6 @@ public interface CustomerService {
     Customer createNewCustomer(Customer customer);
 
     Customer updateCustomer(Long id, Customer customer);
+
+    Customer patchCustomer(Long id, Customer customer);
 }

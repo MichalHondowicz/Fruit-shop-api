@@ -37,4 +37,17 @@ public class CustomerServiceImpl implements CustomerService {
         customerToBeSaved.setId(id);
         return customerRepository.save(customerToBeSaved);
     }
+
+    @Override
+    public Customer patchCustomer(Long id, Customer customerPatch) {
+        return customerRepository.findById(id).map(customer -> {
+            if (customerPatch.getFirstName() != null) {
+                customer.setFirstName(customerPatch.getFirstName());
+            }
+            if (customerPatch.getLastName() != null) {
+                customer.setLastName(customerPatch.getLastName());
+            }
+            return customerRepository.save(customer);
+        }).orElseThrow(() -> new CustomerNotFoundException(id));
+    }
 }
