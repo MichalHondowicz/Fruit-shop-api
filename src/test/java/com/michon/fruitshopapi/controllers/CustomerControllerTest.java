@@ -97,7 +97,23 @@ class CustomerControllerTest extends TestRestControllerExtensionMethods{
         given(customerService.updateCustomer(anyLong(), any(Customer.class))).willReturn(customer);
 
         mockMvc.perform(put(BASE_URL + customerId)
-                .contentType(MediaType.APPLICATION_JSON).content(asJsonString(customer)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(customer)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", equalTo(id)))
+                .andExpect(jsonPath("$.firstName", equalTo(customer.getFirstName())))
+                .andExpect(jsonPath("$.lastName", equalTo(customer.getLastName())));
+    }
+
+    @Test
+    public void testPatchCustomer() throws Exception{
+        int id = (int) ID;
+        String customerId = String.format("/%d", id);
+        given(customerService.patchCustomer(anyLong(), any(Customer.class))).willReturn(customer);
+
+        mockMvc.perform(patch(BASE_URL + customerId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(customer)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", equalTo(id)))
                 .andExpect(jsonPath("$.firstName", equalTo(customer.getFirstName())))

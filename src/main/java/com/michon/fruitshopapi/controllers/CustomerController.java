@@ -28,12 +28,17 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<Customer> createNewCustomer(@RequestBody Customer customer){
+    public ResponseEntity<Customer> createNewCustomer(@RequestBody Customer customer) {
         return new ResponseEntity<>(customerService.createNewCustomer(customer), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer customer) {
         return new ResponseEntity<>(customerService.updateCustomer(id, customer), HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Customer> patchCustomer(@PathVariable Long id, @RequestBody Customer customer){
+        return new ResponseEntity<>(customerService.patchCustomer(id, customer), HttpStatus.OK);
     }
 }
