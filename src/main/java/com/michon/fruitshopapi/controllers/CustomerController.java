@@ -41,4 +41,12 @@ public class CustomerController {
     public ResponseEntity<Customer> patchCustomer(@PathVariable Long id, @RequestBody Customer customer){
         return new ResponseEntity<>(customerService.patchCustomer(id, customer), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id){
+
+        customerService.deleteCustomerById(id);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

@@ -20,17 +20,20 @@ import java.util.List;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CustomerController.class)
-class CustomerControllerTest extends TestRestControllerExtensionMethods{
+class CustomerControllerTest extends TestRestControllerExtensionMethods {
 
-    private static final long ID  = 1L;
+    private static final long ID = 1L;
     private static final String FIRST_NAME = "John";
     private static final String LAST_NAME = "Doe";
     private static final String BASE_URL = "/customers";
+    private int id = (int) ID;
+    private String customerId = String.format("/%d", id);
     private Customer customer;
 
     @MockBean
@@ -79,7 +82,7 @@ class CustomerControllerTest extends TestRestControllerExtensionMethods{
     }
 
     @Test
-    public void testCreateNewCustomer() throws Exception{
+    public void testCreateNewCustomer() throws Exception {
         given(customerService.createNewCustomer(any(Customer.class))).willReturn(customer);
 
         mockMvc.perform(post(BASE_URL)
@@ -91,9 +94,8 @@ class CustomerControllerTest extends TestRestControllerExtensionMethods{
     }
 
     @Test
-    public void testUpdateCustomer() throws Exception{
-        int id = (int) ID;
-        String customerId = String.format("/%d", id);
+    public void testUpdateCustomer() throws Exception {
+
         given(customerService.updateCustomer(anyLong(), any(Customer.class))).willReturn(customer);
 
         mockMvc.perform(put(BASE_URL + customerId)
@@ -106,9 +108,8 @@ class CustomerControllerTest extends TestRestControllerExtensionMethods{
     }
 
     @Test
-    public void testPatchCustomer() throws Exception{
-        int id = (int) ID;
-        String customerId = String.format("/%d", id);
+    public void testPatchCustomer() throws Exception {
+
         given(customerService.patchCustomer(anyLong(), any(Customer.class))).willReturn(customer);
 
         mockMvc.perform(patch(BASE_URL + customerId)
@@ -118,5 +119,14 @@ class CustomerControllerTest extends TestRestControllerExtensionMethods{
                 .andExpect(jsonPath("$.id", equalTo(id)))
                 .andExpect(jsonPath("$.firstName", equalTo(customer.getFirstName())))
                 .andExpect(jsonPath("$.lastName", equalTo(customer.getLastName())));
+    }
+
+    @Test
+    public void testDeleteCustomer() throws Exception {
+        mockMvc.perform(delete(BASE_URL + customerId)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(customerService).deleteCustomerById(anyLong());
     }
 }

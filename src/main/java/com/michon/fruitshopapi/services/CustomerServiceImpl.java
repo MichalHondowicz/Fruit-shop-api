@@ -50,4 +50,14 @@ public class CustomerServiceImpl implements CustomerService {
             return customerRepository.save(customer);
         }).orElseThrow(() -> new CustomerNotFoundException(id));
     }
+
+    @Override
+    public void deleteCustomerById(Long id) {
+
+        if (customerRepository.findById(id).isPresent()) {
+            customerRepository.deleteById(id);
+        } else {
+            throw new CustomerNotFoundException(id);
+        }
+    }
 }
