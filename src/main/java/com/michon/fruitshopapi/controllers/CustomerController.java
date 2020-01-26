@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/customers")
+@RequestMapping(CustomerController.BASE_URL)
 public class CustomerController {
+
+    public static final String BASE_URL = "/customers";
 
     private final CustomerService customerService;
 

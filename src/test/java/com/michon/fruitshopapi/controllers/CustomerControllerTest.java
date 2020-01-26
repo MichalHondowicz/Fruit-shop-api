@@ -2,6 +2,7 @@ package com.michon.fruitshopapi.controllers;
 
 import com.michon.fruitshopapi.domain.Customer;
 import com.michon.fruitshopapi.services.CustomerService;
+import com.michon.fruitshopapi.services.ResourceNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,12 +29,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(CustomerController.class)
 class CustomerControllerTest extends TestRestControllerExtensionMethods {
 
+    private static final String BASE_URL = CustomerController.BASE_URL;
     private static final long ID = 1L;
-    private static final String FIRST_NAME = "John";
-    private static final String LAST_NAME = "Doe";
-    private static final String BASE_URL = "/customers";
     private int id = (int) ID;
     private String customerId = String.format("/%d", id);
+    private static final String NOT_FOUND_ID = "/1000";
+    private static final String FIRST_NAME = "John";
+    private static final String LAST_NAME = "Doe";
     private Customer customer;
 
     @MockBean
@@ -79,6 +81,16 @@ class CustomerControllerTest extends TestRestControllerExtensionMethods {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName", equalTo(customer.getFirstName())))
                 .andExpect(jsonPath("$.lastName", equalTo(customer.getLastName())));
+    }
+
+    @Test
+    public void testGetCustomerByIdNotFound() throws Exception {
+
+        given(customerService.getCustomerById(anyLong())).willThrow(ResourceNotFoundException.class);
+
+        mockMvc.perform(get(BASE_URL + NOT_FOUND_ID)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
     @Test

@@ -2,6 +2,7 @@ package com.michon.fruitshopapi.controllers;
 
 import com.michon.fruitshopapi.domain.Category;
 import com.michon.fruitshopapi.services.CategoryService;
+import com.michon.fruitshopapi.services.ResourceNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,8 +27,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(CategoryController.class)
 class CategoryControllerTest {
 
+    private static final String BASE_URL = CategoryController.BASE_URL;
     private static final String NAME = "Test";
-    private static final String BASE_URL = "/categories";
+    private static final String NOT_FOUND = "/notFound";
     private Category category;
 
     @MockBean
@@ -70,5 +72,14 @@ class CategoryControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", equalTo(category.getName())));
+    }
+
+    @Test
+    public void testGetCategoryByNameNotFound() throws Exception {
+        given(categoryService.getCategoryByName(anyString())).willThrow(ResourceNotFoundException.class);
+
+        mockMvc.perform(get(BASE_URL + NOT_FOUND)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 }

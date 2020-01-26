@@ -18,7 +18,7 @@ public class CategoryServiceImpl implements CategoryService {
     public Category getCategoryByName(String name) {
         return categoryRepository
                 .findByName(name)
-                .orElseThrow(() -> new CategoryNotFoundException(name));
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
