@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping(CustomerController.BASE_URL)
 public class CustomerController {
@@ -20,35 +20,38 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @GetMapping
-    public ResponseEntity<CustomerList> getAllCustomers() {
-        return new ResponseEntity<>(new CustomerList(customerService.getAllCustomers()), HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public CustomerList getAllCustomers() {
+        return new CustomerList(customerService.getAllCustomers());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
-        return new ResponseEntity<>(customerService.getCustomerById(id), HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public Customer getCustomerById(@PathVariable Long id) {
+        return customerService.getCustomerById(id);
     }
 
     @PostMapping
-    public ResponseEntity<Customer> createNewCustomer(@RequestBody Customer customer) {
-        return new ResponseEntity<>(customerService.createNewCustomer(customer), HttpStatus.CREATED);
+    @ResponseStatus(HttpStatus.CREATED)
+    public Customer createNewCustomer(@RequestBody Customer customer) {
+        return customerService.createNewCustomer(customer);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer customer) {
-        return new ResponseEntity<>(customerService.updateCustomer(id, customer), HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public Customer updateCustomer(@PathVariable Long id, @RequestBody Customer customer) {
+        return customerService.updateCustomer(id, customer);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Customer> patchCustomer(@PathVariable Long id, @RequestBody Customer customer){
-        return new ResponseEntity<>(customerService.patchCustomer(id, customer), HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public Customer patchCustomer(@PathVariable Long id, @RequestBody Customer customer) {
+        return customerService.patchCustomer(id, customer);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id){
-
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteCustomer(@PathVariable Long id) {
         customerService.deleteCustomerById(id);
-
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
